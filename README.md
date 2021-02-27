@@ -15,7 +15,7 @@ These scripts are designed for Tampermonkey, although they almost certainly work
 
 **Other:**
 
-- **[XKCD Arrows](https://github.com/RedwolfPrograms/userscripts/blob/main/xkcd-arrows.user.js):** Adds a few features to xkcd.com, including:
+- **[XKCD Arrows](https://github.com/RedwolfPrograms/userscripts/raw/main/xkcd-arrows.user.js):** Adds a few features to xkcd.com, including:
   - Automatic scrolling (if necessary) to position the actual content where it's immediately visible
   - Title text is placed under the image, so hovering is unnecessary
   - Arrow keys can be used to navigate to the next and previous XKCD
