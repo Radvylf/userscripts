@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Random Question
+// @name         Random Question (sidebar)
 // @namespace    http://tampermonkey.net/
 // @version      1.4
 // @description  Click a button to be taken to a random question!
