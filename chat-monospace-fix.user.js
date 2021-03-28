@@ -4,7 +4,7 @@
 // @version      1.0
 // @description  Makes chat look more like main
 // @author       Redwolf Programs
-// @match        https://chat.stackexchange.com/rooms/240/the-nineteenth-byte
+// @match        https://chat.stackexchange.com/rooms/*
 // @grant        none
 // ==/UserScript==
 
