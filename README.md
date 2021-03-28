@@ -12,6 +12,7 @@ These scripts are designed for Tampermonkey, although they almost certainly work
 - **[Random Question](https://github.com/RedwolfPrograms/userscripts/raw/main/random-question.user.js):** Adds a button to the questions page that takes you to a random question (also available in the [sidebar](https://github.com/RedwolfPrograms/userscripts/raw/main/random-question-sidebar.user.js))
 - **[Quick Comments](https://github.com/RedwolfPrograms/userscripts/raw/main/quick-comments.user.js):** Adds ten customizable messages that can be quickly inserted into comments, making reviewing easier
 - **[Question Reception](https://github.com/RedwolfPrograms/userscripts/raw/main/question-reception.user.js):** Adds a customizable `Reception` item under questions' titles, which shows their upvote percentage and controversialness rating by default
+- **[Chat Monospace Fix](https://github.com/RedwolfPrograms/userscripts/raw/main/chat-monospace-fix.user.js):** Updates `<code>` in chat to have the same formatting as main
 
 **Other:**
 
