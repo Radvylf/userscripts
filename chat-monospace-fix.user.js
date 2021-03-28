@@ -24,4 +24,14 @@
         "padding: 1px 5px",
         "}"
     ].join("\n"));
+
+    sheet.insertRule([
+        ".content pre {",
+        "font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;",
+        "line-height: 1.3;",
+        "background-color: rgb(228, 230, 232);",
+        "padding: 12px;",
+        "margin: 0;",
+        "}"
+    ].join("\n"));
 })();
