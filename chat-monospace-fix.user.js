@@ -2,7 +2,7 @@
 // @name         Chat Monospace Fix
 // @namespace    http://tampermonkey.net/
 // @version      1.1
-// @description  Makes chat look more like main
+// @description  Makes chat's monospaced font look more like main
 // @author       Redwolf Programs
 // @match        https://chat.stackexchange.com/rooms/*
 // @grant        none
