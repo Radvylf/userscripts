@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Chat Monospace Fix
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Makes chat's monospaced font look more like main
+// @version      1.2
+// @description  Makes chat look more like main
 // @author       Redwolf Programs
 // @match        https://chat.stackexchange.com/rooms/*
 // @grant        none
@@ -18,7 +18,7 @@
     var sheet = style.sheet;
 
     sheet.insertRule([
-        ".message code {",
+        ".message code, #starred-posts li code {",
         "font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;",
         "background-color: rgb(228, 230, 232);",
         "padding: 1px 5px",
