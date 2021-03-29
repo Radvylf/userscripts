@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Chat Redesign
+// @name         Chat Monospace Fix
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Makes chat look more like main
 // @author       Redwolf Programs
 // @match        https://chat.stackexchange.com/rooms/*
@@ -18,7 +18,7 @@
     var sheet = style.sheet;
 
     sheet.insertRule([
-        ".content code {",
+        ".message code {",
         "font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;",
         "background-color: rgb(228, 230, 232);",
         "padding: 1px 5px",
@@ -26,12 +26,24 @@
     ].join("\n"));
 
     sheet.insertRule([
-        ".content pre {",
+        ".message pre {",
         "font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;",
         "line-height: 1.3;",
         "background-color: rgb(228, 230, 232);",
         "padding: 12px;",
         "margin: 0;",
+        "}"
+    ].join("\n"));
+
+    sheet.insertRule([
+        ".message.editing .content, #input.editing {",
+        "background: rgb(86, 88, 90) !important;",
+        "}"
+    ].join("\n"));
+
+    sheet.insertRule([
+        ".message.editing code, .message.editing pre {",
+        "background-color: rgb(22, 24, 26);",
         "}"
     ].join("\n"));
 })();
