@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -16,6 +16,7 @@
     var SITE_NAME = location.href.match(/https:\/\/(.*)\.stackexchange\.com/)[1];
 
     var DISCARD_AFTER = NEVER;
+    var INSERT_BEFORE = true;
 
     var FORMAT_TIME = (time) => {
         if (time < MINUTES)
@@ -220,24 +221,24 @@
                 if (action != "asked" && action != "answered")
                     return;
 
-                var main_json;
+                if (!document.hasFocus())
+                    document.title = "(" + (+(document.title.match(/\d+/g) || ["0"])[0] + 1) + ") New Posts - Code Golf and Coding Challenges";
+
+                var question_json;
 
                 for (var i = 0; i <= 10; i++) {
-                    main_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "?site=" + SITE_NAME + "&filter=!)5aShmihV3a6rrL*S-qf)i*WU5AL&key=OBN1dIUJujdeMOEvyA3Zhg((");
+                    question_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "?site=" + SITE_NAME + "&filter=!)5aShmihV3a6rrL*S-qf)i*WU5AL&key=OBN1dIUJujdeMOEvyA3Zhg((");
 
-                    if (main_json.items.length)
+                    if (question_json.items.length)
                         break;
 
                     await new Promise(r => setTimeout(r, i < 4 ? 2500 : 10000));
                 }
 
-                if (!main_json.items.length)
+                if (!question_json.items.length)
                     throw "Could not obtain question info after ten attempts";
 
-                if (!document.hasFocus())
-                    document.title = "(" + (+(document.title.match(/\d+/g) || ["0"])[0] + 1) + ") New Posts - Code Golf and Coding Challenges";
-
-                if (main_json.items[0].answer_count) {
+                if (action == "answered") {
                     var answers_json;
 
                     for (var i = 0; i <= 10; i++) {
@@ -252,9 +253,15 @@
                     if (!answers_json.items.length || Date.now() - answers_json.items[0].creation_date * 1000 > 200000)
                         throw "Could not obtain answer info after ten attempts, or answer is unreasonably old";
 
-                    answers.appendChild(FORMAT_ANSWER(main_json.items[0], answers_json.items[0]));
+                    if (INSERT_BEFORE)
+                        answers.prepend(FORMAT_ANSWER(question_json.items[0], answers_json.items[0]));
+                    else
+                        answers.append(FORMAT_ANSWER(question_json.items[0], answers_json.items[0]));
                 } else {
-                    questions.appendChild(FORMAT_QUESTION(main_json.items[0]));
+                    if (INSERT_BEFORE)
+                        questions.prepend(FORMAT_QUESTION(question_json.items[0]));
+                    else
+                        questions.append(FORMAT_QUESTION(question_json.items[0]));
                 }
 
                 update();
