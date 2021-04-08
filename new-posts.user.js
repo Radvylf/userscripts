@@ -1,0 +1,274 @@
+// ==UserScript==
+// @name         New Posts
+// @namespace    http://tampermonkey.net/
+// @version      0.4
+// @description  Watches for new questions and answers
+// @author       Redwolf Programs
+// @match        https://codegolf.stackexchange.com/posts/new
+// @match        https://codegolf.meta.stackexchange.com/posts/new
+// @grant        none
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    var SECONDS = 1000, MINUTES = 60 * SECONDS, HOURS = 60 * MINUTES, DAYS = 24 * HOURS, NEVER = Infinity;
+
+    var SITE_NAME = location.href.match(/https:\/\/(.*)\.stackexchange\.com/)[1];
+
+    var DISCARD_AFTER = NEVER;
+
+    var FORMAT_TIME = (time) => {
+        if (time < MINUTES)
+            return "Now";
+        if (time < HOURS)
+            return (time / MINUTES | 0) + "m";
+        if (time < DAYS)
+            return (time / HOURS | 0) + "h";
+
+        return (time / DAYS | 0) + "d";
+    };
+
+    var FORMAT_OWNER = (owner) => {
+        return (
+            owner.display_name + (owner.user_type == "moderator" ? " ♦" : "") +
+            " (" + [...[...String(owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"
+        );
+    };
+
+    var FORMAT_QUESTION = (question) => {
+        var li = document.createElement("li");
+
+        var a = document.createElement("a");
+        var br = document.createElement("br");
+        var p = document.createElement("p");
+
+        var time = document.createElement("span");
+        var other = document.createTextNode(" - " + FORMAT_OWNER(question.owner));
+
+        time.setAttribute("data-time", question.creation_date);
+
+        a.textContent = question.title;
+        a.href = question.link;
+        a.target = "_blank";
+
+        p.appendChild(time);
+        p.appendChild(other);
+
+        a.style.lineHeight = "1.5";
+        p.style.lineHeight = "1.5";
+
+        li.appendChild(a);
+        li.appendChild(br);
+        li.appendChild(p);
+
+        return li;
+    };
+
+    var FORMAT_ANSWER = (question, answer) => {
+        console.log(question, answer);
+
+        var li = document.createElement("li");
+
+        var a = document.createElement("a");
+        var br = document.createElement("br");
+        var p = document.createElement("p");
+
+        var preview = document.createTextNode("");
+        var time = document.createElement("span");
+        var other = document.createTextNode(" - " + FORMAT_OWNER(answer.owner));
+
+        var dom = document.createElement("div");
+
+        dom.innerHTML = answer.body;
+
+        if (dom.children[0].tagName.match(/^H.|B$/))
+            preview.textContent = dom.children[0].textContent.slice(0, 100) + (dom.children[0].textContent.length > 100 ? "..." : "") + "\n";
+
+        time.setAttribute("data-time", answer.creation_date);
+
+        a.textContent = question.title;
+        a.href = answer.link;
+        a.target = "_blank";
+
+        p.appendChild(preview);
+        p.appendChild(time);
+        p.appendChild(other);
+
+        a.style.lineHeight = "1.5";
+        p.style.lineHeight = "1.5";
+        p.style.whiteSpace = "pre-wrap";
+
+        li.appendChild(a);
+        li.appendChild(br);
+        li.appendChild(p);
+
+        return li;
+    };
+
+    document.title = "New Posts - Code Golf and Coding Challenges";
+
+    var grid, questions, answers;
+
+    var observer = new MutationObserver((records) => {
+        for (var i = 0; i < records.length; i++) {
+            if (records[i].type == "childList" && records[i].target.parentNode && records[i].target.parentNode.querySelector(".grid.w100.h100")) {
+                grid = document.querySelector(".grid.w100.h100");
+
+                while (grid.firstChild)
+                    grid.removeChild(grid.firstChild);
+
+                var questions_parent = document.createElement("div");
+                var answers_parent = document.createElement("div");
+
+                var questions_title = document.createElement("h1");
+                var answers_title = document.createElement("h1");
+
+                questions_title.textContent = "Questions";
+                answers_title.textContent = "Answers";
+
+                questions_parent.appendChild(questions_title);
+                answers_parent.appendChild(answers_title);
+
+                questions = document.createElement("ul");
+                answers = document.createElement("ul");
+
+                questions_parent.appendChild(questions);
+                answers_parent.appendChild(answers);
+
+                questions_parent.className = "w50 h100";
+                answers_parent.className = "w50 h100";
+
+                questions_parent.style.padding = "24px";
+                answers_parent.style.padding = "24px";
+
+                grid.appendChild(questions_parent);
+                grid.appendChild(answers_parent);
+
+                observer.disconnect();
+
+                break;
+            }
+        }
+    });
+
+    observer.observe(document, {attributes: false, childList: true, subtree: true});
+
+    document.addEventListener("DOMContentLoaded", () => {
+        window.addEventListener("focus", () => {
+            document.title = "New Posts - Code Golf and Coding Challenges";
+        });
+
+        var update_time = (node) => {
+            var difference = Date.now() - Number(node.getAttribute("data-time")) * 1000;
+
+            if (difference > DISCARD_AFTER) {
+                var ul = node, li;
+
+                while (ul.tagName != "UL") {
+                    li = ul;
+                    ul = ul.parentNode;
+                }
+
+                ul.removeChild(li);
+
+                if (document.title.match(/\d/)) {
+                    var count = +(document.title.match(/\d+/g) || ["0"])[0] - 1;
+
+                    document.title = (count > 0 ? "(" + count + ") " : "") + "New Posts - Code Golf and Coding Challenges";
+                }
+
+                return;
+            }
+
+            node.textContent = FORMAT_TIME(difference);
+        };
+
+        var update = () => [...document.querySelectorAll("*[data-time]")].map(t => update_time(t));
+
+        var SITE_IDS = {
+            "codegolf": 200,
+            "codegolf.meta": 202
+        };
+
+        var make_request = async (uri) => {
+            return (await fetch(uri)).json();
+        };
+
+        var connect = async () => {
+            var ws = new WebSocket("ws://qa.sockets.stackexchange.com/");
+
+            ws.onopen = () => {
+                ws.send(SITE_IDS[SITE_NAME] + "-questions-active");
+
+                console.log("Opened");
+            };
+
+            ws.onmessage = async (info) => {
+                var ws_json = JSON.parse(info.data);
+
+                if (ws_json.action == "hb")
+                    return ws.send("hb");
+
+                ws_json.data = JSON.parse(ws_json.data);
+
+                var dom_thing = document.createElement("div");
+
+                dom_thing.innerHTML = ws_json.data.body;
+
+                var action = dom_thing.querySelector(".started-link").childNodes[0].textContent.trim();
+
+                if (action != "asked" && action != "answered")
+                    return;
+
+                var main_json;
+
+                for (var i = 0; i <= 10; i++) {
+                    main_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "?site=" + SITE_NAME + "&filter=!)5aShmihV3a6rrL*S-qf)i*WU5AL&key=OBN1dIUJujdeMOEvyA3Zhg((");
+
+                    if (main_json.items.length)
+                        break;
+
+                    await new Promise(r => setTimeout(r, i < 4 ? 2500 : 10000));
+                }
+
+                if (!main_json.items.length)
+                    throw "Could not obtain question info after ten attempts";
+
+                if (!document.hasFocus())
+                    document.title = "(" + (+(document.title.match(/\d+/g) || ["0"])[0] + 1) + ") New Posts - Code Golf and Coding Challenges";
+
+                if (main_json.items[0].answer_count) {
+                    var answers_json;
+
+                    for (var i = 0; i <= 10; i++) {
+                        answers_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "/answers?site=" + SITE_NAME + "&sort=creation&order=desc&pagesize=1&filter=!LhHi1tBzB(YUIE7ecp6bVH&key=OBN1dIUJujdeMOEvyA3Zhg((");
+
+                        if (answers_json.items.length && Date.now() - answers_json.items[0].creation_date * 1000 <= 200000)
+                            break;
+
+                        await new Promise(r => setTimeout(r, i < 4 ? 2500 : 10000));
+                    }
+
+                    if (!answers_json.items.length || Date.now() - answers_json.items[0].creation_date * 1000 > 200000)
+                        throw "Could not obtain answer info after ten attempts, or answer is unreasonably old";
+
+                    answers.appendChild(FORMAT_ANSWER(main_json.items[0], answers_json.items[0]));
+                } else {
+                    questions.appendChild(FORMAT_QUESTION(main_json.items[0]));
+                }
+
+                update();
+            };
+
+            ws.onclose = () => {
+                console.log("Closed");
+
+                setTimeout(connect, 2000);
+            };
+        };
+
+        connect();
+
+        setInterval(update, 10000);
+    });
+})();
