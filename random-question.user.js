@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Random Question
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Click a button to be taken to a random question!
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/
@@ -30,7 +30,7 @@
     button.onclick = async function(e) {
         var total = await new Promise(
             (resolve, reject) => (
-                fetch("https://api.stackexchange.com/2.2/questions?sort=" + (Rules.filterBy || "active") + ("min" in Rules ? "&min=" + Rules.min : "") + ("max" in Rules ? "&max=" + Rules.max : "") + "&filter=total&site=codegolf")
+                fetch("https://api.stackexchange.com/2.2/questions?sort=" + (Rules.filterBy || "active") + ("min" in Rules ? "&min=" + Rules.min : "") + ("max" in Rules ? "&max=" + Rules.max : "") + "&filter=total&site=codegolf&key=CMOB)zHTH1cW8XlSB4rTSg((")
                 .then(response => response.json())
                 .then(result => resolve(result.total))
                 .catch(error => reject(error))
@@ -44,7 +44,7 @@
         do
             page = await new Promise(
                 (resolve, reject) => (
-                    fetch("https://api.stackexchange.com/2.2/questions?sort=" + (Rules.filterBy || "active") + ("min" in Rules ? "&min=" + Rules.min : "") + ("max" in Rules ? "&max=" + Rules.max : "") + "&pagesize=100&page=" + (Math.random() * total / 100 + 1 | 0) + "&site=codegolf")
+                    fetch("https://api.stackexchange.com/2.2/questions?sort=" + (Rules.filterBy || "active") + ("min" in Rules ? "&min=" + Rules.min : "") + ("max" in Rules ? "&max=" + Rules.max : "") + "&pagesize=100&page=" + (Math.random() * total / 100 + 1 | 0) + "&site=codegolf&key=CMOB)zHTH1cW8XlSB4rTSg((")
                     .then(response => response.json())
                     .then(result => resolve(result.items[Math.random() * result.items.length | 0]))
                     .catch(error => reject(error))
