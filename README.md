@@ -13,6 +13,7 @@ These scripts are designed for Tampermonkey, although they almost certainly work
 - **[Quick Comments](https://github.com/RedwolfPrograms/userscripts/raw/main/quick-comments.user.js):** Adds ten customizable messages that can be quickly inserted into comments, making reviewing easier
 - **[Question Reception](https://github.com/RedwolfPrograms/userscripts/raw/main/question-reception.user.js):** Adds a customizable `Reception` item under questions' titles, which shows their upvote percentage and controversialness rating by default. Also supports custom configurations ([examples](https://gist.github.com/RedwolfPrograms/72407590f4342964d09bd3002f374311))
 - **[Chat Monospace Fix](https://github.com/RedwolfPrograms/userscripts/raw/main/chat-monospace-fix.user.js):** Updates `<code>` in chat to have the same formatting as main
+- **[New Posts](https://github.com/RedwolfPrograms/userscripts/raw/main/new-posts.user.js):** Adds a `https://codegolf.stackexchange.com/posts/new` page, which lists new questions and answers as they're posted
 
 **Other:**
 
