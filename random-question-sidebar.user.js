@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Random Question (sidebar)
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.5.1
 // @description  Click a button to be taken to a random question!
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/*
@@ -12,18 +12,18 @@
     const Rules = {
         filterBy: "votes", // supports "activity", "creation", and "votes", defaults to activity
         min: 0, // "max" option also supported, both optional
-        filterClosed: true // when set to "true", closed questions will not be chosen (WARNING: Uses up quota 15% faster!)
+        filterClosed: true // when set to "true", closed questions will not be chosen
     };
 
     const ShamelessAdvertising = "Feed Filter"; // doesn't actually do anything but you should really check out Feed Filter for TNB!
 
-    var container = document.querySelector("#nav-jobs").parentNode.parentNode;
+    var container = document.querySelector("#nav-unanswered").parentNode.parentNode;
     var listItem = document.createElement("li");
     var anchor = document.createElement("a");
     var gridCenter = document.createElement("div");
     var gridText = document.createElement("div");
 
-    anchor.className = "pl8 js-gps-track nav-links--link";
+    anchor.className = "nav-links--link";
     gridCenter.className = "grid ai-center";
     gridText.className = "grid--cell truncate";
 
@@ -63,5 +63,5 @@
     anchor.appendChild(gridCenter);
     listItem.appendChild(anchor);
 
-    container.insertBefore(listItem, container.lastElementChild);
+    container.insertBefore(listItem, container.children[5]);
 })();
