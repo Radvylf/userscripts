@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -30,13 +30,17 @@
     };
 
     var FORMAT_OWNER = (owner) => {
+        var un_html = (string) => new DOMParser().parseFromString(string, "text/html").documentElement.textContent;
+
         return (
-            owner.display_name + (owner.user_type == "moderator" ? " ♦" : "") +
+            un_html(owner.display_name) + (owner.user_type == "moderator" ? " ♦" : "") +
             " (" + [...[...String(owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"
         );
     };
 
     var FORMAT_QUESTION = (question) => {
+        var un_html = (string) => new DOMParser().parseFromString(string, "text/html").documentElement.textContent;
+
         var li = document.createElement("li");
 
         var a = document.createElement("a");
@@ -48,7 +52,7 @@
 
         time.setAttribute("data-time", question.creation_date);
 
-        a.textContent = question.title;
+        a.textContent = un_html(question.title);
         a.href = question.link;
         a.target = "_blank";
 
@@ -66,7 +70,7 @@
     };
 
     var FORMAT_ANSWER = (question, answer) => {
-        console.log(question, answer);
+        var un_html = (string) => new DOMParser().parseFromString(string, "text/html").documentElement.textContent;
 
         var li = document.createElement("li");
 
@@ -87,7 +91,7 @@
 
         time.setAttribute("data-time", answer.creation_date);
 
-        a.textContent = question.title;
+        a.textContent = un_html(question.title);
         a.href = answer.link;
         a.target = "_blank";
 
