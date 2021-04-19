@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -11,11 +11,12 @@
 // ==/UserScript==
 
 (function() {
-    var SECONDS = 1000, MINUTES = 60 * SECONDS, HOURS = 60 * MINUTES, DAYS = 24 * HOURS, NEVER = Infinity;
+    var SECONDS = 1000, MINUTES = 60 * SECONDS, HOURS = 60 * MINUTES, DAYS = 24 * HOURS, NEVER = Infinity, UNLIMITED = Infinity;
 
     var SITE_NAME = location.href.match(/https:\/\/(.*)\.stackexchange\.com/)[1];
 
     var DISCARD_AFTER = NEVER;
+    var MAXIMUM_POSTS = UNLIMITED;
     var INSERT_BEFORE = true;
 
     var FORMAT_TIME = (time) => {
@@ -188,7 +189,15 @@
             node.textContent = FORMAT_TIME(difference);
         };
 
-        var update = () => [...document.querySelectorAll("*[data-time]")].map(t => update_time(t));
+        var update = () => {
+            [...document.querySelectorAll("*[data-time]")].map(t => update_time(t));
+
+            while (questions.children.length > MAXIMUM_POSTS)
+                questions.removeChild(questions.children[MAXIMUM_POSTS]);
+
+            while (answers.children.length > MAXIMUM_POSTS)
+                answers.removeChild(answers.children[MAXIMUM_POSTS]);
+        };
 
         var SITE_IDS = {
             "codegolf": 200,
