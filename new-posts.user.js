@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.8.1
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -259,13 +259,13 @@
                     for (var i = 0; i <= 10; i++) {
                         answers_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "/answers?site=" + SITE_NAME + "&sort=creation&order=desc&pagesize=1&filter=!LhHi1tBzB(YUIE7ecp6bVH&key=OBN1dIUJujdeMOEvyA3Zhg((");
 
-                        if (answers_json.items.length && answers_json[0].answer_id > previous_id)
+                        if (answers_json.items.length && answers_json.items[0].answer_id > previous_id)
                             break;
 
                         await new Promise(r => setTimeout(r, i < 4 ? 2500 : 10000));
                     }
 
-                    if (!answers_json.items.length || answers_json[0].answer_id <= previous_id)
+                    if (!answers_json.items.length || answers_json.items[0].answer_id <= previous_id)
                         throw "Could not obtain answer info after ten attempts, or answer is too old";
 
                     previous_id = answers_json.items[0].answer_id;
