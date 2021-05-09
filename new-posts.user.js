@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.8.1
+// @version      0.8.2
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -49,7 +49,7 @@
         var p = document.createElement("p");
 
         var time = document.createElement("span");
-        var other = document.createTextNode(" - " + FORMAT_OWNER(question.owner));
+        var owner = document.createElement("a");
 
         time.setAttribute("data-time", question.creation_date);
 
@@ -57,8 +57,13 @@
         a.href = question.link;
         a.target = "_blank";
 
+        owner.textContent = FORMAT_OWNER(question.owner);
+        owner.href = question.owner.link;
+        owner.target = "_blank";
+
         p.appendChild(time);
-        p.appendChild(other);
+        p.appendChild(document.createTextNode(" - "));
+        p.appendChild(owner);
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
