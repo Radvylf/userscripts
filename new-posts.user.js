@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.8.3
+// @version      0.8.5
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -99,15 +99,15 @@
         a.href = answer.link;
         a.target = "_blank";
 
-        owner.textContent = FORMAT_OWNER(question.owner);
-        owner.href = question.owner.link;
+        owner.textContent = FORMAT_OWNER(answer.owner);
+        owner.href = answer.owner.link;
         owner.target = "_blank";
 
         p.appendChild(preview);
         p.appendChild(time);
         p.appendChild(document.createTextNode(" - "));
         p.appendChild(owner);
-        p.appendChild(document.createTextNode(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"));
+        p.appendChild(document.createTextNode(" (" + [...[...String(answer.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"));
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
