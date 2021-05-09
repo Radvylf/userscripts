@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.8.2
+// @version      0.8.3
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -33,10 +33,7 @@
     var FORMAT_OWNER = (owner) => {
         var un_html = (string) => new DOMParser().parseFromString(string, "text/html").documentElement.textContent;
 
-        return (
-            un_html(owner.display_name) + (owner.user_type == "moderator" ? " ♦" : "") +
-            " (" + [...[...String(owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"
-        );
+        return un_html(owner.display_name) + (owner.user_type == "moderator" ? " ♦" : "");
     };
 
     var FORMAT_QUESTION = (question) => {
@@ -64,6 +61,7 @@
         p.appendChild(time);
         p.appendChild(document.createTextNode(" - "));
         p.appendChild(owner);
+        p.appendChild(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")");
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
@@ -86,7 +84,7 @@
 
         var preview = document.createTextNode("");
         var time = document.createElement("span");
-        var other = document.createTextNode(" - " + FORMAT_OWNER(answer.owner));
+        var owner = document.createElement("a");
 
         var dom = document.createElement("div");
 
@@ -101,9 +99,15 @@
         a.href = answer.link;
         a.target = "_blank";
 
+        owner.textContent = FORMAT_OWNER(question.owner);
+        owner.href = question.owner.link;
+        owner.target = "_blank";
+
         p.appendChild(preview);
         p.appendChild(time);
-        p.appendChild(other);
+        p.appendChild(document.createTextNode(" - "));
+        p.appendChild(owner);
+        p.appendChild(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")");
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
