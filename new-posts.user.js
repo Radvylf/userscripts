@@ -107,7 +107,7 @@
         p.appendChild(time);
         p.appendChild(document.createTextNode(" - "));
         p.appendChild(owner);
-        p.appendChild(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")");
+        p.appendChild(document.createTextNode(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"));
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
