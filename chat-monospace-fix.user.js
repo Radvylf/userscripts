@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Chat Monospace Fix
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.5
 // @description  Makes monospaced font in chat look more like main
 // @author       Redwolf Programs
 // @match        https://chat.stackexchange.com/rooms/*
 // @match        https://chat.stackexchange.com/transcript/*
+// @match        https://chat.stackexchange.com/search*
 // @grant        none
 // ==/UserScript==
 
