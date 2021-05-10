@@ -29,8 +29,8 @@
         {
             site: "https:", // Apply to all sites
 
-            sans: "Roboto, Arial, \"Helvetica Neue\", Helvetica, sans-serif",
-            mono: "Roboto Mono, Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif"
+            // sans: "Arial, \"Helvetica Neue\", Helvetica, sans-serif",
+            // mono: "Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif"
         }
     ];
 
