@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Fonts
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.1
 // @description  Allows customization of the fonts on Stack Exchange
 // @author       Redwolf Programs
 // @match        https://stackexchange.com/*
@@ -22,7 +22,6 @@
     var Rules = [
         {
             site: "https:", // Apply to all sites
-            mono: "\"Comic Sans MS\", \"Comic Sans\", cursive"
 
             // sans: "Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             // mono: "Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif"
