@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Fonts
 // @namespace    http://tampermonkey.net/
-// @version      1.1.1
+// @version      1.2
 // @description  Allows customization of the fonts on Stack Exchange
 // @author       Redwolf Programs
 // @match        https://stackexchange.com/*
@@ -61,17 +61,32 @@
 
     var style = document.createElement("style");
 
-    style.textContent = (Imports + (Imports && " ") + "body { " +
+    style.textContent = (
+        Imports + (Imports && " ") + "body { " +
         ([
             ["--ff-sans", sans], ["--ff-serif", serif], ["--ff-mono", mono], ["--theme-body-font-family", theme]
         ].filter(r => r[1]).map(r => r[0] + ": " + r[1] + " !important; ")).join("") +
         "--theme-question-body-font-family: var(--theme-body-font-family) !important; " +
         "--theme-question-title-font-family: var(--theme-body-font-family) !important; " +
         "} " +
-        "pre, code { " +
-        "font-family: var(--ff-mono) !important; " +
-        "}"
+        [
+            "body.channels-page .top-bar",
+            ".container .chosen-container .chosen-choices li.search-choice",
+            ".modal .modal-close", ".topbar-dialog", ".topbar-dialog .header h3",
+            ".topbar-dialog .header h3 a", ".topbar-dialog .modal-content .message-text h4",
+            ".topbar-dialog .pinned-site-editor-container .remove-pinned-site-link a",
+            ".top-bar", "#user-menu", ".popup-close a", ".message.message-error .message-close",
+            ".message.message-info .message-close", ".message.message-warning .message-close",
+            ".message.message-config .message-close,.message.message-info.contributor-dropdown .message-close",
+            ".message.message-success .message-close"
+        ].map(c => "html " + c + " { font-family: var(--ff-sans) !important; }").join(" ") +
+        [
+            "pre.s-code-block", ".s-prose code", "pre", "code", ".CodeMirror",
+            "textarea.wmd-input,textarea#wmd-input", ".full-diff .content"
+        ].map(c => "html " + c + " { font-family: var(--ff-mono) !important; }").join(" ")
     );
+
+    console.log(style.textContent);
 
     try {
         document.head.appendChild(style);
