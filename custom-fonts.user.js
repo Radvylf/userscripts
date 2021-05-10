@@ -62,7 +62,7 @@
 
     var style = document.createElement("style");
 
-    style.textContent = ("body { " +
+    style.textContent = (Imports + (Imports && " ") + "body { " +
         ([
             ["--ff-sans", sans], ["--ff-serif", serif], ["--ff-mono", mono], ["--theme-body-font-family", theme]
         ].filter(r => r[1]).map(r => r[0] + ": " + r[1] + " !important; ")).join("") +
