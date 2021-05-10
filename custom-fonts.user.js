@@ -1,17 +1,23 @@
 // ==UserScript==
 // @name         Custom Fonts
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.2.1
 // @description  Allows customization of the fonts on Stack Exchange
 // @author       Redwolf Programs
 // @match        https://stackexchange.com/*
 // @match        https://*.stackexchange.com/*
 // @match        https://stackoverflow.com/*
+// @match        https://*.stackoverflow.com/*
 // @match        https://superuser.com/*
+// @match        https://*.superuser.com/*
 // @match        https://serverfault.com/*
+// @match        https://*.serverfault.com/*
 // @match        https://stackapps.com/*
+// @match        https://*.stackapps.com/*
 // @match        https://askubuntu.com/*
+// @match        https://*.askubuntu.com/*
 // @match        https://mathoverflow.com/*
+// @match        https://*.mathoverflow.com/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
@@ -23,8 +29,8 @@
         {
             site: "https:", // Apply to all sites
 
-            // sans: "Arial, \"Helvetica Neue\", Helvetica, sans-serif",
-            // mono: "Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif"
+            sans: "Roboto, Arial, \"Helvetica Neue\", Helvetica, sans-serif",
+            mono: "Roboto Mono, Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif"
         }
     ];
 
@@ -85,7 +91,7 @@
             "textarea.wmd-input,textarea#wmd-input", ".full-diff .content"
         ].map(c => "html " + c + " { font-family: var(--ff-mono) !important; }").join(" ")
     );
-
+    
     console.log(style.textContent);
 
     try {
