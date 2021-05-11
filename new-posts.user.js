@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New Posts
 // @namespace    http://tampermonkey.net/
-// @version      0.8.5
+// @version      0.8.6
 // @description  Watches for new questions and answers
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/posts/new
@@ -61,7 +61,7 @@
         p.appendChild(time);
         p.appendChild(document.createTextNode(" - "));
         p.appendChild(owner);
-        p.appendChild(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")");
+        p.appendChild(document.createTextNode(" (" + [...[...String(question.owner.reputation)].reverse().join("").match(/.{1,3}/g).join(",")].reverse().join("") + ")"));
 
         a.style.lineHeight = "1.5";
         p.style.lineHeight = "1.5";
@@ -242,6 +242,8 @@
 
                 var action = dom_thing.querySelector(".started-link").childNodes[0].textContent.trim();
 
+                console.log(action);
+
                 if (action != "asked" && action != "answered")
                     return;
 
@@ -251,6 +253,8 @@
                 var question_json;
 
                 for (var i = 0; i <= 10; i++) {
+                    console.log(i);
+
                     question_json = await make_request("https://api.stackexchange.com/2.2/questions/" + ws_json.data.id + "?site=" + SITE_NAME + "&filter=!)5aShmihV3a6rrL*S-qf)i*WU5AL&key=OBN1dIUJujdeMOEvyA3Zhg((");
 
                     if (question_json.items.length)
@@ -262,7 +266,11 @@
                 if (!question_json.items.length)
                     throw "Could not obtain question info after ten attempts";
 
+                console.log(question_json.items[0]);
+
                 if (action == "answered") {
+                    console.log("answer");
+
                     var answers_json;
 
                     for (var i = 0; i <= 10; i++) {
@@ -284,6 +292,8 @@
                     else
                         answers.append(FORMAT_ANSWER(question_json.items[0], answers_json.items[0]));
                 } else {
+                    console.log(FORMAT_QUESTION(question_json.items[0]));
+
                     if (INSERT_BEFORE)
                         questions.prepend(FORMAT_QUESTION(question_json.items[0]));
                     else
