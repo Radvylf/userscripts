@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-    var UPDATE_INTERVAL = 20000;
+    var UPDATE_INTERVAL = 40000;
 
     if (location.pathname != "/review") {
         setInterval(async () => {
