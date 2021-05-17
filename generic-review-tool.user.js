@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Generic Review Tool
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.0.1
 // @description  Detects and opens review tasks
 // @author       Redwolf Programs (Ryan Tosh)
 // @match        https://codegolf.stackexchange.com/review
@@ -15,8 +15,15 @@
     var UPDATE_INTERVAL = 40000;
 
     if (location.pathname != "/review") {
+        if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
+            return;
+
+        var key = location.pathname.split("/").slice(1, 3).join("_").replace(/-/g, "_");
+
+        console.log(key);
+
         setInterval(async () => {
-            GM.setValue("GRT." + location.pathname.replace(/\//g, "_").replace(/^_+/, ""), Date.now());
+            GM.setValue("GRT." + key, Date.now());
         }, 1000);
 
         return;
@@ -88,7 +95,7 @@
         for (r in reviews) {
             main_numbers[r].textContent = main_numbers[r].title = data[r];
 
-            if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].replace(/\//g, "_").replace(/^_+/, "")) || 0) > 2500)
+            if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 2500)
                 GM.openInTab(r);
         }
 
