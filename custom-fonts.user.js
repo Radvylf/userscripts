@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name         Custom Fonts
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
+// @version      1.2.4
 // @description  Allows customization of the fonts on Stack Exchange
 // @author       Redwolf Programs
-// @match        https://stackexchange.com
 // @match        https://stackexchange.com/*
 // @match        https://*.stackexchange.com/*
 // @match        https://stackoverflow.com/*
@@ -19,6 +18,12 @@
 // @match        https://*.askubuntu.com/*
 // @match        https://mathoverflow.com/*
 // @match        https://*.mathoverflow.com/*
+// @exclude      https://api.stackexchange.com/*
+// @exclude      https://chat.stackexchange.com/*
+// @exclude      https://data.stackexchange.com/*
+// @exclude      https://dev.stackexchange.com/*
+// @exclude      https://openid.stackexchange.com/*
+// @exclude      https://insights.stackoverflow.com/*
 // @grant        none
 // @run-at       document-start
 // ==/UserScript==
