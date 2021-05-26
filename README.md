@@ -16,6 +16,7 @@ These scripts are designed for Tampermonkey, although they almost certainly work
 - **[New Posts](https://github.com/RedwolfPrograms/userscripts/raw/main/new-posts.user.js):** Adds a `https://codegolf.stackexchange.com/posts/new` page, which lists new questions and answers as they're posted
 - **[Custom Fonts](https://github.com/RedwolfPrograms/userscripts/raw/main/custom-fonts.user.js):** Allows customized fonts on all sites, according to certain rules
 - **[Generic Review Tool](https://github.com/RedwolfPrograms/userscripts/raw/main/generic-review-tool.user.js):** Automatically detects and opens new review tasks, with significantly less overhead compared to other similar scripts
+- **[Inbox Interrupt](https://github.com/RedwolfPrograms/userscripts/raw/main/inbox-interrupt.user.js):** Script that prevents clicking inbox/achievements before they're fully loaded from taking you to a different page
 
 **Other:**
 
