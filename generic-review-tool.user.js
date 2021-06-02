@@ -13,6 +13,7 @@
 
 (function() {
     var UPDATE_INTERVAL = 40000;
+    var SOUND_NOTIFS = false;
 
     if (location.pathname != "/review") {
         if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
@@ -72,6 +73,13 @@
     document.querySelector(".s-page-title--text").appendChild(counter);
     document.querySelector(".s-page-title--text").appendChild(total);
 
+    var ping = () => {
+        var audio = new Audio();
+
+        audio.src = "https://github.com/RedwolfPrograms/userscripts/blob/main/resources/grt.mp3?raw=true";
+        audio.play();
+    };
+
     var start = Date.now();
 
     var update = async () => {
@@ -95,8 +103,14 @@
         for (r in reviews) {
             main_numbers[r].textContent = main_numbers[r].title = data[r];
 
-            if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 2500)
+            console.log(r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_"), Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0));
+
+            if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 10000) {
                 GM.openInTab(r);
+
+                if (SOUND_NOTIFS)
+                    ping();
+            }
         }
 
         counter_t.textContent = "0:00";
