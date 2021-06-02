@@ -12,8 +12,8 @@
 // ==/UserScript==
 
 (function() {
-    var UPDATE_INTERVAL = 20000;
-    var SOUND_NOTIFS = true;
+    var UPDATE_INTERVAL = 40000;
+    var SOUND_NOTIFS = false;
 
     if (location.pathname != "/review") {
         if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
