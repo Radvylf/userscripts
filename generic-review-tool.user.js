@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Generic Review Tool
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.1.0
 // @description  Detects and opens review tasks
 // @author       Redwolf Programs (Ryan Tosh)
 // @match        https://codegolf.stackexchange.com/review
@@ -12,8 +12,8 @@
 // ==/UserScript==
 
 (function() {
-    var UPDATE_INTERVAL = 40000;
-    var SOUND_NOTIFS = false;
+    var UPDATE_INTERVAL = 20000;
+    var SOUND_NOTIFS = true;
 
     if (location.pathname != "/review") {
         if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
