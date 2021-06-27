@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Generic Review Tool
 // @namespace    http://tampermonkey.net/
-// @version      1.1.0
+// @version      1.1.1
 // @description  Detects and opens review tasks
 // @author       Redwolf Programs (Ryan Tosh)
 // @match        https://codegolf.stackexchange.com/review
@@ -12,8 +12,8 @@
 // ==/UserScript==
 
 (function() {
-    var UPDATE_INTERVAL = 40000;
-    var SOUND_NOTIFS = false;
+    var UPDATE_INTERVAL = 20000;
+    var SOUND_NOTIFS = true;
 
     if (location.pathname != "/review") {
         if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
@@ -73,10 +73,12 @@
     document.querySelector(".s-page-title--text").appendChild(counter);
     document.querySelector(".s-page-title--text").appendChild(total);
 
-    var ping = () => {
-        var audio = new Audio();
+    var audio = new Audio("https://github.com/RedwolfPrograms/userscripts/blob/main/resources/grt.mp3?raw=true");
 
-        audio.src = "https://github.com/RedwolfPrograms/userscripts/blob/main/resources/grt.mp3?raw=true";
+    var ping = () => {
+        audio.pause();
+        audio.currentTime = 0;
+
         audio.play();
     };
 
@@ -103,7 +105,7 @@
         for (r in reviews) {
             main_numbers[r].textContent = main_numbers[r].title = data[r];
 
-            console.log(r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_"), Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0));
+            // console.log(r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_"), Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0));
 
             if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 10000) {
                 GM.openInTab(r);
