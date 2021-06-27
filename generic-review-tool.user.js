@@ -12,7 +12,7 @@
 // ==/UserScript==
 
 (function() {
-    var UPDATE_INTERVAL = 20000;
+    var UPDATE_INTERVAL = 40000;
     var SOUND_NOTIFS = true;
 
     if (location.pathname != "/review") {
