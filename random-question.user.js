@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Random Question
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.5.1
 // @description  Click a button to be taken to a random question!
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/
@@ -20,7 +20,7 @@
 
     const ShamelessAdvertising = "Feed Filter"; // doesn't actually do anything but you should really check out Feed Filter for TNB!
 
-    var container = document.querySelector("div.grid.ai-center.mb16") || document.querySelector("div.grid.ai-center.mb12");
+    var container = document.querySelector("div.ai-center.mb16") || document.querySelector("div.ai-center.mb12");
     var button = document.createElement("a");
 
     button.textContent = "Random";
