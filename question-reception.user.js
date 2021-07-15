@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Question Reception
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.1
 // @description  Adds custom information including upvote count, downvote count, upvote vs. downvote percentage, and controversialness (according to my rating scale)
 // @author       Redwolf Programs
 // @match        https://codegolf.stackexchange.com/questions/*
@@ -26,7 +26,7 @@
     }
 
     if (show_views) {
-        var views = [...document.querySelectorAll(".grid--cell.ws-nowrap.mb8")].find(v => v.title.startsWith("Viewed"));
+        var views = [...document.querySelectorAll(".flex--item.ws-nowrap.mb8")].find(v => v.title.startsWith("Viewed"));
 
         views.childNodes[2].textContent = " " + views.title.split(" ").slice(1).join(" ");
     }
