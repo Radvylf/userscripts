@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         More User Details
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.0.1
 // @description  Re-adds the "Last seen" and "Member for" stats
 // @author       You
 // @match        https://*.stackexchange.com/users/*
@@ -704,19 +704,19 @@
 
         var days = distance / 86400 | 0;
 
-        if (distance <= 1)
+        if (days <= 1)
             return ["yesterday", ""];
 
-        if (distance < 7)
+        if (days < 7)
             return [days + " days", " ago"];
 
-        if (distance < 35)
+        if (days < 35)
             return [(days / 7 | 0) + " weeks", " ago"];
 
-        if (distance < 360)
+        if (days < 360)
             return [(days / 30 | 0) + " months", " ago"];
 
-        if (distance < 540)
+        if (days < 550)
             return ["last year", ""];
 
         return [Math.round(days / 365.25) + " years", " ago"];
