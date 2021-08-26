@@ -1,11 +1,30 @@
 // ==UserScript==
 // @name         Generic Review Tool
 // @namespace    http://tampermonkey.net/
-// @version      1.1.1
+// @version      1.2
 // @description  Detects and opens review tasks
 // @author       Redwolf Programs (Ryan Tosh)
-// @match        https://codegolf.stackexchange.com/review
-// @match        https://codegolf.stackexchange.com/review/*
+// @match        https://*.stackexchange.com/review*
+// @match        https://stackoverflow.com/review*
+// @match        https://*.stackoverflow.com/review*
+// @match        https://superuser.com/review*
+// @match        https://*.superuser.com/review*
+// @match        https://serverfault.com/review*
+// @match        https://*.serverfault.com/review*
+// @match        https://stackapps.com/review*
+// @match        https://*.stackapps.com/review*
+// @match        https://askubuntu.com/review*
+// @match        https://*.askubuntu.com/review*
+// @match        https://mathoverflow.com/review*
+// @match        https://*.mathoverflow.com/review*
+// @exclude      https://api.stackexchange.com/*
+// @exclude      https://chat.stackexchange.com/*
+// @exclude      https://chat.meta.stackexchange.com/*
+// @exclude      https://chat.stackoverflow.com/*
+// @exclude      https://data.stackexchange.com/*
+// @exclude      https://dev.stackexchange.com/*
+// @exclude      https://openid.stackexchange.com/*
+// @exclude      https://insights.stackoverflow.com/*
 // @grant        GM.openInTab
 // @grant        GM.getValue
 // @grant        GM.setValue
@@ -13,13 +32,17 @@
 
 (function() {
     var UPDATE_INTERVAL = 40000;
-    var SOUND_NOTIFS = true;
+    var SOUND_NOTIFS = false;
+
+    var site_name = location.hostname.split(".").filter(n => n != "stackexchange" && n != "com").join("_");
+
+    console.log(site_name);
 
     if (location.pathname != "/review") {
         if (location.pathname.endsWith("/stats") || location.pathname.endsWith("/history"))
             return;
 
-        var key = location.pathname.split("/").slice(1, 3).join("_").replace(/-/g, "_");
+        var key = site_name + "_" + location.pathname.split("/").slice(1, 3).join("_").replace(/-/g, "_");
 
         console.log(key);
 
@@ -27,10 +50,12 @@
             GM.setValue("GRT." + key, Date.now());
         }, 1000);
 
+        setTimeout(() => window.close(), 600000);
+
         return;
     }
 
-    var main_reviews = Object.fromEntries([...document.querySelectorAll(".bb")].map(r => [r.querySelector(".mb2 a").href, r]));
+    var main_reviews = Object.fromEntries([...document.querySelectorAll(".bb")].filter(r => r.querySelector(".mb2 a")).map(r => [r.querySelector(".mb2 a").href, r]));
     var main_numbers = {};
 
     var r;
@@ -96,7 +121,7 @@
 
         div.innerHTML = body;
 
-        var reviews = Object.fromEntries([...div.querySelectorAll(".bb")].map(r => [r.querySelector(".mb2 a").href, r]));
+        var reviews = Object.fromEntries([...div.querySelectorAll(".bb")].filter(r => r.querySelector(".mb2 a")).map(r => [r.querySelector(".mb2 a").href, r]));
         var data = {};
 
         for (r in reviews)
