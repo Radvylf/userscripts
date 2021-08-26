@@ -132,7 +132,7 @@
 
             // console.log(r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_"), Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0));
 
-            if (data[r] && Date.now() - (await GM.getValue("GRT." + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 10000) {
+            if (data[r] && Date.now() - (await GM.getValue("GRT." + site_name + "_" + r.split(".com")[1].split("/").slice(1, 3).join("_").replace(/-/g, "_")) || 0) > 10000) {
                 GM.openInTab(r);
 
                 if (SOUND_NOTIFS)
