@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Generic Review Tool
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.2.1
 // @description  Detects and opens review tasks
 // @author       Redwolf Programs (Ryan Tosh)
 // @match        https://*.stackexchange.com/review*
@@ -113,7 +113,7 @@
         if (navigator.onLine === false)
             return;
 
-        var html = await fetch("/review").then(r => r.text());
+        var html = await fetch(location.origin + "/review").then(r => r.text());
 
         var body = html.match(/<body[^>]*>(.*)<\/body>/s)[1];
 
