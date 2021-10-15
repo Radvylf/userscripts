@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         More User Details
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Re-adds the "Last seen" and "Member for" stats
 // @author       You
 // @match        https://*.stackexchange.com/users/*
@@ -724,7 +724,7 @@
 
     var last_seen = ago(json.last_access_date);
 
-    var parent = document.querySelectorAll(".my16.fw-wrap")[0];
+    var parent = document.querySelectorAll("ul.fw-wrap")[0];
 
     var clone = document.querySelector(".iconCake").parentNode.parentNode.parentNode.cloneNode(true);
 
@@ -735,6 +735,5 @@
     clone.children[0].children[1].childNodes[1].title = new Date(json.last_access_date * 1000).toISOString();
     clone.children[0].children[1].childNodes[2].textContent = last_seen[1];
 
-    parent.children[1].appendChild(parent.children[0].children[0].cloneNode());
-    parent.children[1].children[0].appendChild(clone);
+    parent.appendChild(clone);
 })();
