@@ -18,6 +18,7 @@ These scripts are designed for Tampermonkey, although they almost certainly work
 - **[Generic Review Tool](https://github.com/RedwolfPrograms/userscripts/raw/main/generic-review-tool.user.js):** Automatically detects and opens new review tasks, with significantly less overhead compared to other similar scripts
 - **[Inbox Interrupt](https://github.com/RedwolfPrograms/userscripts/raw/main/inbox-interrupt.user.js):** Script that prevents clicking inbox/achievements before they're fully loaded from taking you to a different page
 - **[More User Details](https://github.com/RedwolfPrograms/userscripts/raw/main/more-user-details.user.js):** Adds additional details to user pages, currently only supports "last seen"
+- **[Paste to Upload](https://github.com/RedwolfPrograms/userscripts/raw/main/paste-to-upload.user.js):** Allows pasting images into the chat input box to upload them
 
 **Other:**
 
