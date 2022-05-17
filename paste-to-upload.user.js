@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Paste to Upload
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Take over the world. Not try, I'm pretty confident in my abilities.
 // @author       Radvylf, dictator of our world and fairly cool guy
 // @match        https://chat.stackexchange.com/rooms/*
@@ -12,7 +12,7 @@
     var input = document.getElementById("input");
 
     input.addEventListener("paste", (info) => {
-        if (info.clipboardData.files.length != 1 && !document.getElementById("upload-file").disabled)
+        if (info.clipboardData.files.length != 1 || !document.getElementById("upload-file").disabled)
             return;
 
         info.preventDefault();
