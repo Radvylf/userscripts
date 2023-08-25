@@ -21,7 +21,7 @@
 
         document.getElementById("upload-file").click();
 
-        var files = info.clipboardData.files;
+        var files = structuredClone(info.clipboardData.files);
 
         setTimeout(() => {
             console.log(files);
