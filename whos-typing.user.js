@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Who's Typing
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.0.1
 // @description  Shows who's typing in SE cat
 // @author       Radvylf Programs
 // @match        https://chat.stackexchange.com/rooms/*
@@ -91,7 +91,7 @@
 
     var start_ws = async (fails = 0) => {
         try {
-            ws = new WebSocket(LOCALHOST ? "ws://localhost:8077" : "wss://radvylfprograms.com/whos_typing");
+            ws = new WebSocket(LOCALHOST ? "ws://localhost:8077" : "wss://rydwolf.xyz/whos_typing");
 
             ws.onopen = () => {
                 ws.send("id\n" + Date.now() + "\n" + room + "\n" + user_id + ":" + JSON.stringify(user_name));
