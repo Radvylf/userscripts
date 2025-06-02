@@ -5,6 +5,8 @@
 // @description  Take over the world. Not try, I'm pretty confident in my abilities.
 // @author       Radvylf, dictator of our world and fairly cool guy
 // @match        https://chat.stackexchange.com/rooms/*
+// @match        https://chat.meta.stackexchange.com/rooms/*
+// @match        https://chat.stackoverflow.com/rooms/*
 // @grant        none
 // ==/UserScript==
 
